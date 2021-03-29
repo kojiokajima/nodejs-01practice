@@ -41,7 +41,7 @@ app.get('/list', (req, res) => {
         (error, results) => {
             console.log('------', results[0])
             console.log('----------', results[0].email)
-            res.json(results[0])
+            res.json(results[0]) // オブジェクトをJSONにしてんのか
         }
     )
 })
