@@ -9,10 +9,11 @@ const connection = mysql.createConnection({
     port: process.env.NODE_PORT,
     user: process.env.NODE_USER,
     password: process.env.NODE_PASSWORD,
-    database: process.env.NODE_DATABSE
+    // database: process.env.NODE_DATABSE
+    database: 'nodejs_01practice'
 })
 
-connection.connect((err) => {
+connection.connect((err, results) => {
     if (err) {
         console.log('error occured ', err.stack);
         return;
@@ -21,7 +22,14 @@ connection.connect((err) => {
 }) 
 
 app.get('/', (req, res) => {
-    res.send('Hello World')
+    connection.query(
+        'SELECT * FROM users;',
+        (error, results) => {
+            console.log(results)
+            console.log("query evoked")
+            res.render('hello.ejs')
+        }
+    );
 })
 
 app.get('/api', (req, res) => {
@@ -30,10 +38,8 @@ app.get('/api', (req, res) => {
 
 app.listen(port, (req, res) => {
     console.log(`listening on ${port}`)
-    console.log(process.env.NODE_HOST)
-    console.log(process.env.NODE_USER)
-    console.log(process.env.NODE_PASSWORD)
+    console.log('--------------------')
     console.log(process.env.NODE_DATABASE)
-    console.log(process.env.NODE_PORT)
-
+    console.log('nodejs_01practice')
+    console.log('--------------------')
 })
