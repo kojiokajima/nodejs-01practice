@@ -7,6 +7,6 @@
   },
   "scripts": {
     "start": "node backend/index.js",
-    "heroku-postbuild": "cd frontend && npm install && npm tun build"
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
   }
 }
