@@ -5,10 +5,16 @@ import './App.css';
 function App() {
   const [message, setMessage] = useState('')
 
+  // useEffect(() => {
+  //   fetch('/api')
+  //   .then((res) => res.json())
+  //   .then((data) => setMessage(data.message));
+  // }, [])
+
   useEffect(() => {
-    fetch('/api')
+    fetch('/list')
     .then((res) => res.json())
-    .then((data) => setMessage(data.message));
+    .then((data) => setMessage(data.email))
   }, [])
 
   return (

@@ -25,9 +25,8 @@ app.get('/', (req, res) => {
     connection.query(
         'SELECT * FROM users;',
         (error, results) => {
-            console.log(results)
+            // console.log(results)
             console.log("query evoked")
-            res.render('hello.ejs')
         }
     );
 })
@@ -36,10 +35,21 @@ app.get('/api', (req, res) => {
     res.json({message: "HELLO WORLD"});
 })
 
+app.get('/list', (req, res) => {
+    connection.query(
+        'SELECT * FROM users',
+        (error, results) => {
+            console.log('------', results[0])
+            console.log('----------', results[0].email)
+            res.json(results[0])
+        }
+    )
+})
+
 app.listen(port, (req, res) => {
     console.log(`listening on ${port}`)
-    console.log('--------------------')
-    console.log(process.env.NODE_DATABASE)
-    console.log('nodejs_01practice')
-    console.log('--------------------')
+    // console.log('--------------------')
+    // console.log(process.env.NODE_DATABASE)
+    // console.log('nodejs_01practice')
+    // console.log('--------------------')
 })
