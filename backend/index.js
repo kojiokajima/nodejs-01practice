@@ -25,15 +25,15 @@ connection.connect((err, results) => {
     console.log('Connection established')
 }) 
 
-app.get('/', (req, res) => {
-    connection.query(
-        'SELECT * FROM users;',
-        (error, results) => {
-            // console.log(results)
-            console.log("query evoked")
-        }
-    );
-})
+// app.get('/', (req, res) => {
+//     connection.query(
+//         'SELECT * FROM users;',
+//         (error, results) => {
+//             // console.log(results)
+//             console.log("query evoked")
+//         }
+//     );
+// })
 
 app.get('/api', (req, res) => {
     res.json({message: "HELLO WORLD"});
