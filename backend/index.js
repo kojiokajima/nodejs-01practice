@@ -1,8 +1,12 @@
 const express = require('express');
 const mysql = require('mysql2');
+const path = require('path');
 require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3001;
+
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+// app.use(express.static(path.join(__dirname, '../frontend/build')));
 
 const connection = mysql.createConnection({
     host: process.env.NODE_HOST,
@@ -44,6 +48,10 @@ app.get('/list', (req, res) => {
             res.json(results[0]) // オブジェクトをJSONにしてんのか
         }
     )
+})
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/build/index.html'))
 })
 
 app.listen(port, (req, res) => {
