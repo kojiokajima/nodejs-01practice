@@ -111,9 +111,13 @@ app.get('/list', (req, res) => {
     connection.query(
         'SELECT * FROM users',
         (error, results) => {
-            console.log('------', results[0])
-            console.log('----------', results[0].email)
-            res.json(results[0]) // オブジェクトをJSONにしてんのか
+            if (error) {
+                console.log('CANT GET DATA');
+            } else {
+                console.log('------', results[0])
+                console.log('----------', results[0].email)
+                res.json(results[0]) // オブジェクトをJSONにしてんのか
+            }
         }
     )
 })
