@@ -23,6 +23,7 @@ connection.connect((err, results) => {
         return;
     }
     console.log('Connection established')
+    console.log(__dirname)
 }) 
 
 // app.get('/', (req, res) => {
