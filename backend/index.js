@@ -1,14 +1,16 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 const mysql = require('mysql2');
 const path = require('path');
 require('dotenv').config();
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3200;
 
 // ---------------------------------
 const tableName = 'users';
 // ---------------------------------
 
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 // app.use(express.static(path.join(__dirname, '../frontend/build')));
 
@@ -42,32 +44,13 @@ connection.connect((error, results) => {
     // console.log(__dirname)
 })
 
-connection.query(
-    'CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT, f_name TEXT, l_name TEXT, email TEXT, password TEXT, PRIMARY KEY (id));',
-    (error, response) => {
-        if (error) {
-            console.log('ERROR CREATING TABLE')
-            console.log('error: ', error);
-        }
-    }
-);
-
 // connection.query(
 //     'SHOW FIELDS FROM users;',
 //     (error, response) => {
 //     console.log('response: ', response);
 // });
 
-connection.query(
-    "INSERT IGNORE INTO users VALUES (1, 'test1', 'user1', 'test1@gmail.com', 'test1');",
-    (err, results) => {
-        if (err) {
-            console.log("DATA WAS NOT INSERTED")
-        } else {
-            console.log('resultssss: ', results)
-        }
-    }
-)
+
 
 connection.query(
     'SHOW tables',
@@ -75,7 +58,7 @@ connection.query(
         if (err) {
             console.log("CANT SHOW")
         } else {
-            console.log(results)
+            // console.log(results)
         }
     }
 )
@@ -86,22 +69,23 @@ connection.query(
         if (err) {
             console.log('NO DATA WAS SELECTED');
         } else {
-            console.log("SELECT: ", results)
+            // console.log("SELECT: ", results)
+            // results.json({message: results[0].email})
         }
     }
 )
 
 // ---------------------------------
 
-// app.get('/', (req, res) => {
-//     connection.query(
-//         'SELECT * FROM users;',
-//         (error, results) => {
-//             // console.log(results)
-//             console.log("query evoked")
-//         }
-//     );
-// })
+app.get('/', (req, res) => {
+    connection.query(
+        'SELECT * FROM users;',
+        (error, results) => {
+            // console.log(results)
+            console.log("query evoked")
+        }
+    );
+})
 
 app.get('/api', (req, res) => {
     res.json({message: "HELLO WORLD"});
@@ -109,18 +93,57 @@ app.get('/api', (req, res) => {
 
 app.get('/list', (req, res) => {
     connection.query(
-        'SELECT * FROM users',
+        'SELECT * FROM users;',
         (error, results) => {
             if (error) {
                 console.log('CANT GET DATA');
             } else {
-                console.log('------', results[0])
-                console.log('----------', results[0].email)
+                // console.log('------', results[0])
+                // console.log('----------', results[0])
                 res.json(results[0]) // オブジェクトをJSONにしてんのか
             }
         }
     )
 })
+
+app.post('/list', (req, res) => {
+    const firstName = req.body.firstName
+    console.log("YOOOOOOOO")
+    console.log("REQ: ", firstName)
+})
+
+// SIGN UP 
+app.post('/signup',
+    (req, res, next) => {
+        const firstName = req.body.firstName;
+        const lastName = req.body.lastName;
+        const email = req.body.email;
+        const password = req.body.password;
+        const error = ''
+        
+        console.log("SIGNUP EVOKED")
+
+        if (firstName === '' || lastName === '' || email === '' || password === '') {
+            error = "All fields are required. Please try again."
+            // res.json({message: error})
+            console.log(error)
+        }
+
+        connection.query(
+            'INSERT INTO users (f_name, l_name, email, password) VALUES (?, ?, ?, ?)',
+            [firstName, lastName, email, password],
+            (err, res) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log(res)
+                }
+            }
+        )
+
+
+    }
+)
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/build/index.html'))
