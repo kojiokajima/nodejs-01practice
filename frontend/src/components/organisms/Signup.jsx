@@ -1,16 +1,6 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {TextInput, Button} from 'react-materialize';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
-
-let axiosConfig = {
-    headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        "Access-Control-Allow-Origin": "*",
-    }
-  };
-
-
 
 const Signup = () => {
 
