@@ -125,7 +125,6 @@ app.post('/signup',
 
         if (firstName === '' || lastName === '' || email === '' || password === '') {
             error = "All fields are required. Please try again."
-            // res.json({message: error})
             console.log(error)
         }
 
