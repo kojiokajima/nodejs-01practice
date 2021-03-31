@@ -1,9 +1,7 @@
 import React from 'react'
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 // import logo from './logo.svg';
 import Router from './Router';
-import {Home, Signup} from './components/index'
-
 
 function App() {
 

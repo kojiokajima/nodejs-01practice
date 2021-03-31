@@ -6,6 +6,7 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3200;
 
+
 // ---------------------------------
 const tableName = 'users';
 // ---------------------------------
@@ -113,6 +114,10 @@ app.post('/list', (req, res) => {
 })
 
 // SIGN UP 
+// app.get('/signup', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../frontend/src/conponents/organisms/Home.jsx'))
+// })
+
 app.post('/signup',
     (req, res, next) => {
         const firstName = req.body.firstName;
@@ -125,7 +130,6 @@ app.post('/signup',
 
         if (firstName === '' || lastName === '' || email === '' || password === '') {
             error = "All fields are required. Please try again."
-            // res.json({message: error})
             console.log(error)
         }
 
@@ -134,13 +138,16 @@ app.post('/signup',
             [firstName, lastName, email, password],
             (err, res) => {
                 if (err) {
+                    console.log("DATA NOT ADDED")
                     console.log(err)
                 } else {
-                    console.log(res)
+                    console.log("DATA ADDED!")
+                    // console.log(res)
                 }
             }
         )
-
+        
+        res.redirect('/')
 
     }
 )
